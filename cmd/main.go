@@ -7,8 +7,9 @@ import (
 func main() {
 	router := gin.Default()
 
-	// router.GET("/storage", get)
-	// router.POST("/storage", post)
+	api := router.Group("/api")
+
+	api.POST("/auth/register")
 
 	router.Run()
 }
