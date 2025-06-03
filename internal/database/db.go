@@ -1,4 +1,4 @@
-package repositories
+package database
 
 import (
 	"fmt"
@@ -7,14 +7,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func InitDB() (*gorm.DB, error) {
+var DB *gorm.DB
+
+func InitDB() {
 	dsn := "host=localhost user=postgres password=2288 dbname=testdb port=5432 sslmode=disable TimeZone=UTC"
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	var err error
+
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, fmt.Errorf("failed to connect to database: %w", err)
+		fmt.Println("Ошибка при инициализации базы данных:", err)
+		return
 	}
 
 	fmt.Println("Connect to db is succesful")
-	return db, nil
 }

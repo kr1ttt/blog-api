@@ -1,6 +1,23 @@
 package controllers
 
-// func Registr(c *gin.Context) {
-// 	user := models.User{}
+import (
+	"blog-api/internal/database"
+	"blog-api/internal/models"
+	"encoding/json"
+	"fmt"
+	"io"
 
-// }
+	"github.com/gin-gonic/gin"
+)
+
+func Registr(c *gin.Context) {
+	user := models.User{}
+
+	body, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		fmt.Errorf("Ошибка при чтении запроса: %w", err)
+	}
+
+	json.Unmarshal(body, &user)
+	database.DB.Create(&user)
+}
