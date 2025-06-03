@@ -1,15 +1,21 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"blog-api/internal/models"
+	"blog-api/internal/repositories"
+	"blog-api/internal/router"
+	"fmt"
 )
 
 func main() {
-	router := gin.Default()
+	router := router.NewRouter()
 
-	api := router.Group("/api")
+	db, _ := repositories.InitDB()
 
-	api.POST("/auth/register")
+	user := models.User{8, "kr1t", "ghdngb346"}
+	db.Create(&user)
+
+	fmt.Println(user)
 
 	router.Run()
 }
