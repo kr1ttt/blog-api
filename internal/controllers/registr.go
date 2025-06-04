@@ -3,9 +3,7 @@ package controllers
 import (
 	"blog-api/internal/database"
 	"blog-api/internal/models"
-	"encoding/json"
-	"fmt"
-	"io"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,12 +16,11 @@ func Registr(c *gin.Context) {
 
 	user.User_id = int(usersCount) + 1
 
-	body, err := io.ReadAll(c.Request.Body)
-	if err != nil {
-		fmt.Errorf("Ошибка при чтении запроса: %w", err)
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	json.Unmarshal(body, &user)
-
 	database.DB.Create(&user)
+	c.String(http.StatusOK, "Успешно, пользователь зарегестрирован!")
 }
