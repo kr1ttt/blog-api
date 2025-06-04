@@ -12,6 +12,7 @@ func NewRouter() *gin.Engine {
 	api := router.Group("/api")
 
 	api.POST("/auth/registr", controllers.Registr)
+	api.GET("/auth/login", controllers.Login)
 
 	return router
 }
