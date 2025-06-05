@@ -15,6 +15,7 @@ func NewRouter() *gin.Engine {
 	api.GET("/auth/login", controllers.Login)
 	api.GET("/users", controllers.GetUsers)
 	api.DELETE("/users", controllers.UserDelete)
+	api.POST("/posts", controllers.AddPost)
 
 	return router
 }

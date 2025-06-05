@@ -11,7 +11,7 @@ import (
 
 func UserDelete(c *gin.Context) {
 	var user struct {
-		Id uint
+		ID uint
 	}
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -19,7 +19,7 @@ func UserDelete(c *gin.Context) {
 		return
 	}
 
-	result := database.DB.Delete(&models.User{}, user.Id)
+	result := database.DB.Delete(&models.User{}, user.ID)
 
 	if result.Error != nil {
 		r := models.Response{false, fmt.Sprint("Ошибка при удалении пользователя:", result)}

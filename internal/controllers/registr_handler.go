@@ -17,7 +17,7 @@ func Registr(c *gin.Context) {
 	var usersCount int64
 	database.DB.Raw("SELECT COUNT(*) FROM users").Scan(&usersCount)
 
-	user.User_id = int(usersCount) + 1
+	user.UserID = uint(usersCount) + 1
 
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
