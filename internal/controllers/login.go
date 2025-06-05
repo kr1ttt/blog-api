@@ -13,11 +13,6 @@ import (
 	"gorm.io/gorm"
 )
 
-type response struct {
-	Succes  bool   `json:"succes"`
-	Message string `json:"message"`
-}
-
 func Login(c *gin.Context) {
 	user := models.User{}
 
@@ -33,17 +28,17 @@ func Login(c *gin.Context) {
 	err = database.DB.Where("login = ?", user.Login).First(&user).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
-		r := response{false, "Пользователь не найден"}
+		r := models.Response{false, "Пользователя не существует"}
 		c.JSON(http.StatusOK, r)
 	} else if err != nil {
-		r := response{false, fmt.Sprint("Произошла ошибка:", err)}
+		r := models.Response{false, fmt.Sprint("Произошла ошибка:", err)}
 		c.JSON(http.StatusOK, r)
 	} else {
 		if user.User_password != password {
-			r := response{false, "Пользователь существует, неверный пароль"}
+			r := models.Response{false, "Пользователь существует, неверный пароль"}
 			c.JSON(http.StatusOK, r)
 		} else {
-			r := response{true, "Пользователь существует, пароль верный"}
+			r := models.Response{true, "Пользователь существует, пароль верный"}
 			c.JSON(http.StatusOK, r)
 		}
 	}
