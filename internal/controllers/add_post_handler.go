@@ -21,6 +21,6 @@ func AddPost(c *gin.Context) {
 		return
 	}
 
-	r := models.Response{true, "Комментарий успешно создан!"}
+	r := models.Response{true, "Пост успешно создан!"}
 	c.JSON(http.StatusOK, r)
 }

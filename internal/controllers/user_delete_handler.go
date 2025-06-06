@@ -5,21 +5,21 @@ import (
 	"blog-api/internal/models"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func UserDelete(c *gin.Context) {
-	var user struct {
-		ID uint
+	param := c.Param("id")
+
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		r := models.Response{false, fmt.Sprint("Ошибка при преобразовании параметра:", err)}
+		c.JSON(http.StatusOK, r)
 	}
 
-	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	result := database.DB.Delete(&models.User{}, user.ID)
+	result := database.DB.Delete(&models.User{}, id)
 
 	if result.Error != nil {
 		r := models.Response{false, fmt.Sprint("Ошибка при удалении пользователя:", result)}
