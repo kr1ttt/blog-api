@@ -11,11 +11,6 @@ import (
 func AddPost(c *gin.Context) {
 	comment := models.Post{}
 
-	var commentsCount int64
-	database.DB.Raw("SELECT COUNT(*) FROM comments").Scan(&commentsCount)
-
-	comment.ID = uint(commentsCount) + 1
-
 	if err := c.ShouldBindJSON(&comment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

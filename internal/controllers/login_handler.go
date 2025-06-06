@@ -23,7 +23,7 @@ func Login(c *gin.Context) {
 
 	json.Unmarshal(body, &user)
 
-	password := user.UserPassword
+	password := user.Password
 
 	err = database.DB.Where("login = ?", user.Login).First(&user).Error
 
@@ -34,7 +34,7 @@ func Login(c *gin.Context) {
 		r := models.Response{false, fmt.Sprint("Ошибка при получении пользователя из бд:", err)}
 		c.JSON(http.StatusOK, r)
 	} else {
-		if user.UserPassword != password {
+		if user.Password != password {
 			r := models.Response{false, "Пользователь существует, неверный пароль"}
 			c.JSON(http.StatusOK, r)
 		} else {
