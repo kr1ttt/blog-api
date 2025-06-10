@@ -9,13 +9,22 @@ import (
 func NewRouter() *gin.Engine {
 	router := gin.Default()
 
-	api := router.Group("/api")
+	apiV1 := router.Group("/api/v1")
 
-	api.POST("/auth/reg", controllers.Registr)
-	api.GET("/auth/login", controllers.Login)
-	api.GET("/users", controllers.GetUsers)
-	api.DELETE("/users/:id", controllers.UserDelete)
-	api.POST("/posts", controllers.AddPost)
+	apiV1.POST("/auth/reg", controllers.Registr)
+	apiV1.GET("/auth/login", controllers.Login)
+
+	apiV1.GET("/users", controllers.GetUsers)
+	apiV1.GET("/users/:id", controllers.GetUser)
+	apiV1.DELETE("/users/:id", controllers.UserDelete)
+
+	apiV1.POST("/posts", controllers.AddPost)
+	apiV1.GET("/posts/:id", controllers.GetPost)
+	apiV1.DELETE("/posts/:id", controllers.DeletePost)
+
+	apiV1.POST("/comments", controllers.AddComment)
+	apiV1.GET("comments/:id", controllers.GetComment)
+	apiV1.DELETE("comments/:id", controllers.DeleteComment)
 
 	return router
 }

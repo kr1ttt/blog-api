@@ -18,7 +18,8 @@ func Login(c *gin.Context) {
 
 	body, err := io.ReadAll(c.Request.Body)
 	if err != nil {
-		fmt.Errorf("Ошибка при чтении запроса: %w", err)
+		r := models.Response{false, fmt.Sprint("Ошибка при чтении запроса:", err)}
+		c.JSON(http.StatusOK, r)
 	}
 
 	json.Unmarshal(body, &user)
