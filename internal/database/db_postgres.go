@@ -1,7 +1,8 @@
 package database
 
 import (
-	"fmt"
+	"blog-api/internal/config"
+	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -10,15 +11,13 @@ import (
 var DB *gorm.DB
 
 func InitDB() {
-	dsn := "host=localhost user=postgres password=2288 dbname=testdb port=5432 sslmode=disable TimeZone=UTC"
+	var dsn string = config.Config.DBDsn
 
 	var err error
-
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		fmt.Println("Ошибка при инициализации базы данных:", err)
-		return
+		log.Fatal("Ошибка при инициализации базы данных:", err)
 	}
 
-	fmt.Println("Connect to db is succesful")
+	log.Println("Connect to db is succesful")
 }
